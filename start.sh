@@ -43,7 +43,7 @@ install_amd_driver() {
     cd /home/docker/
     rm -rf /tmp/opencl-driver-amd
     echo "---AMD Driver installation finished---"
-    INSTALLED_DRIVERV=$(cd /home/docker/phoenixminer && ./PhoenixMiner -list | grep -m 1 "OpenCL driver version" | sed 's/OpenCL driver version: //g' | cut -c1-5)
+    INSTALLED_DRIVERV="?"
     rm /etc/apt/apt.conf.d/90assumeyes
 }
 
@@ -65,11 +65,11 @@ install_new_amd_driver() {
     cd /home/docker/
     rm -rf /tmp/opencl-driver-amd
     echo "---AMD Driver installation finished---"
-    INSTALLED_DRIVERV=$(cd /home/docker/phoenixminer && ./PhoenixMiner -list | grep -m 1 "OpenCL driver version" | sed 's/OpenCL driver version: //g' | cut -c1-5)
+    INSTALLED_DRIVERV="?"
     rm /etc/apt/apt.conf.d/90assumeyes
 }
 
-INSTALLED_DRIVERV=$(cd /home/docker/phoenixminer && ./PhoenixMiner -list | grep -m 1 "OpenCL driver version" | sed 's/OpenCL driver version: //g' | cut -c1-5)
+INSTALLED_DRIVERV="?"
 
 if [[ "${INSTALLED_DRIVERV}" != "${DRIVERV:-20.20}" ]]; then
 
@@ -241,11 +241,7 @@ term_handler() {
 }
 
 trap 'kill ${!}; term_handler' SIGTERM
-if [ "${CUSTOM}" == "true" ]; then
-    /home/docker/custom-mine.sh &
-else
-    /home/docker/mine.sh &
-fi
+/home/docker/entrypoint.sh &
 killpid="$!"
 
 while true; do
