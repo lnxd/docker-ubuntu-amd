@@ -8,8 +8,8 @@ name: Docker Github Publish
 on:
   push:
     branches: ["dev" ]
-  pull_request:
-    branches: [ "main" ]
+  release:
+    types: [published]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   workflow_dispatch:
