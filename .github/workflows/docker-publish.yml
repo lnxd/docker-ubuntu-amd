@@ -7,11 +7,10 @@ name: Docker
 
 on:
   push:
-    branches: [ "main", "dev" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    branches: ["dev" ]
   pull_request:
     branches: [ "main" ]
+    # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
 
 env:
@@ -66,8 +65,6 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,"dev"
 
 
       # Build and push Docker image with Buildx (don't push on PR)
